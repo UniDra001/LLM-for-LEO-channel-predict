@@ -50,14 +50,14 @@ class Res_block(nn.Module):
         return rs
 
 
-class Model(nn.Module):
+class GPTModel(nn.Module):
 
     def __init__(self, gpt_type='gpt2', d_ff=768, d_model=768, gpt_layers=6,
                  pred_len=4, prev_len=16, use_gpu=1, gpu_id=0, mlp=0, res_layers=4,
                  K=48, UQh=4, UQv=1, BQh=2, BQv=1,
                  patch_size=4, stride=1, res_dim=64,
                  embed='timeF', freq='h', dropout=0.1):
-        super(Model, self).__init__()
+        super(GPTModel, self).__init__()
         self.device = torch.device('cuda:{}'.format(gpu_id))
         self.mlp = mlp
         self.res_layers = res_layers
@@ -126,7 +126,7 @@ class Model(nn.Module):
         self.RB_e.append(nn.Conv2d(res_dim, 2, 3, 1, 1))
         self.RB_f.append(nn.Conv2d(res_dim, 2, 3, 1, 1))
 
-    def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, mask=None):
+    def forward(self, x_enc, x_mark_enc = None):
         mean = torch.mean(x_enc)
         std = torch.std(x_enc)
         x_enc = (x_enc - mean) / std
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     import torch
 
     device = torch.device('cuda')
-    model = Model(UQh=1, UQv=1, BQh=1, BQv=1).to(device)
+    model = GPTModel(UQh=1, UQv=1, BQh=1, BQv=1).to(device)
     inputs = torch.rand(3, 16, 96).to(device)
     out = model(inputs, None, None, None)
     print(out.shape)
