@@ -14,16 +14,13 @@ def noise(H, SNR):
 
 
 class Dataset_Pro(data.Dataset):
-    def __init__(self, file_path_r, file_path_t, is_train=1, ir=1, SNR=15, is_U2D=0, is_few=0,
+    def __init__(self, file_path, is_train=1, ir=1, SNR=15, is_few=0,
                  train_per=0.9, valid_per=0.1):
         super(Dataset_Pro, self).__init__()
         self.SNR = SNR
         self.ir = ir
-        H_his = hdf5storage.loadmat(file_path_r)['H_U_his_train']  # v,b,l,k,a,b,c 900 10 16 48 4 4 2
-        if is_U2D:
-            H_pre = hdf5storage.loadmat(file_path_t)["H_D_pre_train"]  # v,b,l,k,a,b,c
-        else:
-            H_pre = hdf5storage.loadmat(file_path_t)["H_U_pre_train"]  # v,b,l,k,a,b,c
+        H_his = hdf5storage.loadmat(file_path)['H_U_his_train']  # v,b,l,k,a,b,c 900 10 16 48 4 4 2
+        H_pre = hdf5storage.loadmat(file_path)["H_D_pre_train"]  # v,b,l,k,a,b,c
         # print(H_his.shape, H_pre.shape)
 
         batch = H_pre.shape[1]

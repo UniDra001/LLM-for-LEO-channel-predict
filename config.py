@@ -6,8 +6,6 @@
 
 Config = {
     "model_path": "output",
-    "train_data_path": "../data/train_tag_news.json",
-    "valid_data_path": "../data/valid_tag_news.json",
     "vocab_path":"chars.txt",
     "model_type":"cnn",
     "max_length": 30,
@@ -22,6 +20,8 @@ Config = {
     "pretrain_model_path":r"D:\bert-base-chinese",
     "seed": 987,
     # 新增待确定参数
+    "train_file_path": "./train_data/H_U_train.mat",
+    "valid_file_path": "./test_data/H_U_test.mat",
     "enc_in": 123,
     "dec_in": 123,
     "c_out": 123,
@@ -29,5 +29,6 @@ Config = {
     "input_size": 123,
     "pred_len": 4,
     "label_len":20,
+    "model_save_path": "Weights/LLM4CP.pth"
 }
 

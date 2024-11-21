@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 import math
+from torch.optim import Adam, SGD
 from math import sqrt
 from einops import rearrange
 from models.utils import TriangularCausalMask, ProbMask
@@ -533,3 +534,12 @@ class Autoencoder(nn.Module):
 
         return x
 
+#优化器的选择
+def choose_optimizer(config, model):
+    # optimizer = optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), weight_decay=0.0001)
+    optimizer = config["optimizer"]
+    learning_rate = config["learning_rate"]
+    if optimizer == "adam":
+        return Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.999), weight_decay=0.0001)
+    elif optimizer == "sgd":
+        return SGD(model.parameters(), lr=learning_rate)
