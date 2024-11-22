@@ -35,14 +35,14 @@ class TorchModel(nn.Module):
         # ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn', 'np', 'pad']
         if model_type == 'gpt':
             self.endModel = GPTModel()
-        if model_type == 'transformer':
+        elif model_type == 'transformer':
             self.endModel = InformerStack(enc_in, dec_in, c_out, out_len)
         elif model_type == 'cnn':
             self.endModel = Autoencoder()
         elif model_type == 'gru':
             self.endModel = GRU(features, input_size, hidden_size, num_layers)
         elif model_type == 'lstm':
-            self.endModel == LSTM(features, input_size, hidden_size, num_layers)
+            self.endModel = LSTM(features, input_size, hidden_size, num_layers)
         elif model_type == 'rnn':
             self.endModel = RNN(features, input_size, hidden_size, num_layers)
         

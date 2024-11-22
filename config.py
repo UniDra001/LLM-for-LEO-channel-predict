@@ -9,10 +9,9 @@ Config = {
     "vocab_path":"chars.txt",
     "model_type":"cnn",
     "max_length": 30,
-    "hidden_size": 256,
     "kernel_size": 3,
     "num_layers": 2,
-    "epoch": 15,
+    "epoch": 20,
     "batch_size": 128,
     "pooling_style":"max",
     "optimizer": "adam",
@@ -29,6 +28,11 @@ Config = {
     "input_size": 123,
     "pred_len": 4,
     "label_len":20,
-    "model_out_path": "Weights/LLM4CP.pth"
+    "model_out_path": "Weights/",
+    "features": 96,
+    "hidden_size": 192,
+    "input_size": 96,
+    
+    
 }
 

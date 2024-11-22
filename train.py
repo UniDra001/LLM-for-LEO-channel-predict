@@ -18,34 +18,13 @@ from metrics import NMSELoss, SE_Loss
 logging.basicConfig(level=logging.INFO, format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 # ============= HYPER PARAMS(Pre-Defined) ==========#
-# lr = 0.0001
-# epochs = 500
-# batch_size = 1024
-# device = torch.device('cuda')
-
-# best_loss = 100
-# save_path = "Weights/U2U_LLM4CP.pth"
-# train_TDD_r_path = "./train_data/H_U_his_train.mat"
-# train_TDD_t_path = "./train_data/H_U_pre_train.mat"
-# key = ['H_U_his_train', 'H_U_pre_train', 'H_D_pre_train']
-# train_set = Dataset_Pro(train_TDD_r_path, train_TDD_t_path, is_train=1, is_U2D=0, is_few=0)  # creat data for training
-# validate_set = Dataset_Pro(train_TDD_r_path, train_TDD_t_path, is_train=0, is_U2D=0)  # creat data for validation
-
-# model = Model(gpu_id=0,
-#               pred_len=4, prev_len=16,
-#               UQh=1, UQv=1, BQh=1, BQv=1).to(device)
-# if os.path.exists(save_path):
-#     model = torch.load(save_path, map_location=device)
-
-
-
 
 
 ###################################################################
 # ------------------- Main Train (Run second)----------------------------------
 ###################################################################
 def train(config):
-    training_data_loader, validate_data_loader = generate_data(config)
+    
     #创建保存模型的目录
     if not os.path.isdir(config["model_path"]):
         os.mkdir(config["model_path"])
@@ -67,7 +46,7 @@ def train(config):
     
     best_loss = 100
 
-    print('Start training...')
+    print('Start training {} ...'.format(model.model_type))
     for epoch in range(epochs):
         epoch_train_loss, epoch_val_loss = [], []
         # ============Epoch Train=============== #
@@ -124,12 +103,14 @@ def show_model_parament(model):
     print("Number of learnable parameter: %.5fM" % (total_learn / 1e6))
     
 def save_best_checkpoint(model, config):  # save model function
-    model_out_path = config["model_out_path"]
+    model_out_path = config["model_out_path"] + config["model_type"] + ".pth"
     torch.save(model, model_out_path)
     
 # ------------------- Main Function (Run first) -------------------
 if __name__ == "__main__":
-    model_list = ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn', 'np', 'pad']
+    # ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn']
+    model_list = ['gru', 'rnn', 'lstm']
+    training_data_loader, validate_data_loader = generate_data(Config)
     for model in model_list:
         Config["model_type"] = model
         train(Config) 
