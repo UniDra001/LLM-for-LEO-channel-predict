@@ -3,18 +3,66 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 import math
+from torch.optim import Adam, SGD
 from math import sqrt
 from einops import rearrange
 from models.utils import TriangularCausalMask, ProbMask
+from models.GPT4CP import GPTModel
 
 from models.encoder import Encoder, EncoderLayer, ConvLayer, EncoderStack
 from models.decoder import Decoder, DecoderLayer
 from models.attn import FullAttention, ProbAttention, AttentionLayer
 from models.embed import DataEmbedding
 
+class TorchModel(nn.Module):
+    def __init__(self, config):
+        super(TorchModel, self).__init__()
+        # 模型类型
+        model_type = config["model_type"]
+        self.model_type = model_type
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.pred_len = config["pred_len"]
+        self.label_len = config["label_len"]
+        # 不同模型的初始化参数
+        enc_in = config["enc_in"]
+        dec_in = config["dec_in"]
+        c_out = config["c_out"]
+        out_len = config["out_len"]
+        features = config["features"]
+        input_size = config["input_size"]
+        hidden_size = config["hidden_size"]
+        num_layers = config["num_layers"]
+        # ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn', 'np', 'pad']
+        if model_type == 'gpt':
+            self.endModel = GPTModel()
+        if model_type == 'transformer':
+            self.endModel = InformerStack(enc_in, dec_in, c_out, out_len)
+        elif model_type == 'cnn':
+            self.endModel = Autoencoder()
+        elif model_type == 'gru':
+            self.endModel = GRU(features, input_size, hidden_size, num_layers)
+        elif model_type == 'lstm':
+            self.endModel == LSTM(features, input_size, hidden_size, num_layers)
+        elif model_type == 'rnn':
+            self.endModel = RNN(features, input_size, hidden_size, num_layers)
+        
+    def forward(self, x):
+        if self.model_type in ['gpt', 'cnn']:
+            return self.endModel(x)
+        elif self.model_type in ['gru', 'lstm', 'rnn']:
+            return self.endModel(x, self.pred_len, self.device)
+        elif self.model_type == 'transformer':
+            encoder_input = x  
+            dec_inp = torch.zeros_like(encoder_input[:, -self.pred_len:, :]).to(self.device)
+            decoder_input = torch.cat([encoder_input[:, self.prev_len - self.label_len:self.prev_len, :], dec_inp],
+                                        dim=1)
+            return self.endModel(x, decoder_input)
+        
+        
+        
 
 class Informer(nn.Module):
-    def __init__(self, enc_in, dec_in, c_out, seq_len, label_len, out_len,
+    def __init__(self, enc_in, dec_in, c_out, out_len,
                  factor=5, d_model=512, n_heads=8, e_layers=3, d_layers=2, d_ff=512,
                  dropout=0.0, attn='prob', embed='fixed', activation='gelu',
                  output_attention=False, distil=True,
@@ -88,7 +136,7 @@ class Informer(nn.Module):
 
 
 class InformerStack_e2e(nn.Module):
-    def __init__(self, enc_in, dec_in, c_out, seq_len, label_len, out_len,
+    def __init__(self, enc_in, dec_in, c_out, out_len,
                  factor=5, d_model=512, n_heads=8, e_layers=3, d_layers=2, d_ff=512,
                  dropout=0.0, attn='prob', embed='fixed', activation='gelu',
                  output_attention=False, distil=True,
@@ -166,7 +214,7 @@ class InformerStack_e2e(nn.Module):
 
 
 class InformerStack(nn.Module):
-    def __init__(self, enc_in, dec_in, c_out, seq_len, label_len, out_len,
+    def __init__(self, enc_in, dec_in, c_out, out_len,
                  factor=5, d_model=512, n_heads=8, e_layers=3, d_layers=2, d_ff=512,
                  dropout=0.0, attn='prob', embed='fixed', activation='gelu',
                  SR_rate=6,interpolate_f='linear',
@@ -486,3 +534,12 @@ class Autoencoder(nn.Module):
 
         return x
 
+#优化器的选择
+def choose_optimizer(config, model):
+    # optimizer = optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), weight_decay=0.0001)
+    optimizer = config["optimizer"]
+    learning_rate = config["learning_rate"]
+    if optimizer == "adam":
+        return Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.999), weight_decay=0.0001)
+    elif optimizer == "sgd":
+        return SGD(model.parameters(), lr=learning_rate)
