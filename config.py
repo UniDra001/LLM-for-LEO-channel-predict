@@ -29,6 +29,6 @@ Config = {
     "input_size": 123,
     "pred_len": 4,
     "label_len":20,
-    "model_save_path": "Weights/LLM4CP.pth"
+    "model_out_path": "Weights/LLM4CP.pth"
 }
 

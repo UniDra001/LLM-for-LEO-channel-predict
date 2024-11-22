@@ -7,7 +7,7 @@ from torch.optim import Adam, SGD
 from math import sqrt
 from einops import rearrange
 from models.utils import TriangularCausalMask, ProbMask
-from GPT4CP import GPTModel
+from models.GPT4CP import GPTModel
 
 from models.encoder import Encoder, EncoderLayer, ConvLayer, EncoderStack
 from models.decoder import Decoder, DecoderLayer

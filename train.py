@@ -7,7 +7,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from data import Dataset_Pro
 import scipy.io as sio
-from models.GPT4CP import Model
+from models.GPT4CP import GPTModel
 import numpy as np
 import logging
 from models.model import TorchModel, choose_optimizer
@@ -64,6 +64,8 @@ def train(config):
     
     # 显示模型参数
     show_model_parament(model)
+    
+    best_loss = 100
 
     print('Start training...')
     for epoch in range(epochs):
@@ -102,13 +104,14 @@ def train(config):
                 save_best_checkpoint(model, config)
 
 def generate_data(config):
-    train_set = Dataset_Pro(config["train_file_path"], is_train=1, is_U2D=0, is_few=0)  # creat data for training
-    validate_set = Dataset_Pro(config["valid_file_path"], is_train=0, is_U2D=0)  # creat data for validation
+    train_set = Dataset_Pro(config["train_file_path"], is_train=1)  # creat data for training
+    validate_set = Dataset_Pro(config["valid_file_path"], is_train=0)  # creat data for validation
         
-    training_data_loader = DataLoader(dataset=train_set, num_workers=0, batch_size=config["batch_size"], shuffle=True,
+    training_data_loader = DataLoader(dataset=train_set, num_workers=0, batch_size=config["batch_size"], 
+                                    shuffle=True,
                                     pin_memory=True,
                                     drop_last=True)  # put training data to DataLoader for batches
-    validate_data_loader = DataLoader(dataset=validate_set, num_workers=0, batch_size=["batch_size"],
+    validate_data_loader = DataLoader(dataset=validate_set, num_workers=0, batch_size=config["batch_size"],
                                     shuffle=True,
                                     pin_memory=True,
                                     drop_last=True)  # put training data to DataLoader for batches
@@ -121,10 +124,12 @@ def show_model_parament(model):
     print("Number of learnable parameter: %.5fM" % (total_learn / 1e6))
     
 def save_best_checkpoint(model, config):  # save model function
-    model_out_path = save_path
+    model_out_path = config["model_out_path"]
     torch.save(model, model_out_path)
     
 # ------------------- Main Function (Run first) -------------------
 if __name__ == "__main__":
-
-    train(Config)  # call train function (
+    model_list = ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn', 'np', 'pad']
+    for model in model_list:
+        Config["model_type"] = model
+        train(Config) 

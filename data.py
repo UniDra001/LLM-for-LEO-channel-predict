@@ -19,21 +19,21 @@ class Dataset_Pro(data.Dataset):
         super(Dataset_Pro, self).__init__()
         self.SNR = SNR
         self.ir = ir
-        H_his = hdf5storage.loadmat(file_path)['H_U_his_train']  # v,b,l,k,a,b,c 900 10 16 48 4 4 2
-        H_pre = hdf5storage.loadmat(file_path)["H_D_pre_train"]  # v,b,l,k,a,b,c
+        H_his = hdf5storage.loadmat(file_path)['H_U_prev']  # 64,128,20,48
+        H_pre = hdf5storage.loadmat(file_path)["H_U_pred"]  # 64,128,4,48
         # print(H_his.shape, H_pre.shape)
+        # 最大坐标采样数
 
-        batch = H_pre.shape[1]
-        H_his = H_his[:64, ...]
-        H_pre = H_pre[:64, ...]
+        batch = H_pre.shape[0] * H_pre.shape[1]
+        H_his = rearrange(H_his, 'p s l k -> (p s) l k')
+        H_pre = rearrange(H_pre, 'p s l k -> (p s) l k')
         if is_train:
-            H_his = H_his[:, :int(train_per * batch), ...]
-            H_pre = H_pre[:, :int(train_per * batch), ...]
+            H_his = H_his[:int(train_per * batch), ...]
+            H_pre = H_pre[:int(train_per * batch), ...]
         else:
-            H_his = H_his[:, int(train_per * batch):int((train_per + valid_per) * batch), ...]
-            H_pre = H_pre[:, int(train_per * batch):int((train_per + valid_per) * batch), ...]
-        H_his = rearrange(H_his, 'v n L k a b c -> (v n) L (k a b c)')
-        H_pre = rearrange(H_pre, 'v n L k a b c -> (v n) L (k a b c)')
+            H_his = H_his[int(train_per * batch):int((train_per + valid_per) * batch), ...]
+            H_pre = H_pre[int(train_per * batch):int((train_per + valid_per) * batch), ...]
+
 
         B, prev_len, mul = H_his.shape
         _, pred_len, mul = H_pre.shape
@@ -51,12 +51,12 @@ class Dataset_Pro(data.Dataset):
         std = np.sqrt(np.std(np.abs(H_his) ** 2))
         H_his = H_his / std
         H_pre = H_pre / std
-        H_pre = LoadBatch_ofdm(H_pre)
-        H_his = LoadBatch_ofdm(H_his)
+        H_pre = LoadBatch_ofdm_1(H_pre)
+        H_his = LoadBatch_ofdm_1(H_his)
         if is_few == 1:
             H_pre = H_pre[::10, ...]
             H_his = H_his[::10, ...]
-        self.pred = H_pre  # b,16,(48*2)
+        self.pred = H_pre  # b,20,(48*2)
         self.prev = H_his  # b,4,(48*2)
 
     def __getitem__(self, index):
