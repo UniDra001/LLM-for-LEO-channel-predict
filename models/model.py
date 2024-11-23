@@ -38,7 +38,7 @@ class TorchModel(nn.Module):
         elif model_type == 'transformer':
             self.endModel = InformerStack(enc_in, dec_in, c_out, out_len)
         elif model_type == 'cnn':
-            self.endModel = Autoencoder()
+            self.endModel = Autoencoder(self.label_len, self.pred_len)
         elif model_type == 'gru':
             self.endModel = GRU(features, input_size, hidden_size, num_layers)
         elif model_type == 'lstm':
@@ -497,9 +497,9 @@ class LSTM(nn.Module):
 
 
 class Autoencoder(nn.Module):
-    def __init__(self, n_filters=[2, 8, 16, 32, 64, 128, 256, 512], filter_sizes=[3, 3, 3, 3, 3, 3, 3, 3]):
+    def __init__(self, prev_len, pred_len, n_filters=[2, 8, 16, 32, 64, 128, 256, 512], filter_sizes=[3, 3, 3, 3, 3, 3, 3, 3]):
         super(Autoencoder, self).__init__()
-        self.postprocess = nn.Conv1d(16, 4, 3, 1, 1)
+        self.postprocess = nn.Conv1d(prev_len, pred_len, 3, 1, 1)
         self.encoder = nn.ModuleList()
         self.decoder = nn.ModuleList()
 
