@@ -22,12 +22,12 @@ class TorchModel(nn.Module):
         self.model_type = model_type
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.pred_len = config["pred_len"]
+        self.prev_len = config["prev_len"]
         self.label_len = config["label_len"]
         # 不同模型的初始化参数
         enc_in = config["enc_in"]
         dec_in = config["dec_in"]
         c_out = config["c_out"]
-        out_len = config["out_len"]
         features = config["features"]
         input_size = config["input_size"]
         hidden_size = config["hidden_size"]
@@ -36,9 +36,9 @@ class TorchModel(nn.Module):
         if model_type == 'gpt':
             self.endModel = GPTModel()
         elif model_type == 'transformer':
-            self.endModel = InformerStack(enc_in, dec_in, c_out, out_len)
+            self.endModel = InformerStack(enc_in, dec_in, c_out, self.pred_len)
         elif model_type == 'cnn':
-            self.endModel = Autoencoder(self.label_len, self.pred_len)
+            self.endModel = Autoencoder(self.prev_len, self.pred_len)
         elif model_type == 'gru':
             self.endModel = GRU(features, input_size, hidden_size, num_layers)
         elif model_type == 'lstm':
@@ -61,10 +61,10 @@ class TorchModel(nn.Module):
         
         
 
-class Informer(nn.Module):
+class Informer(nn.Module): #attn == 'prob'
     def __init__(self, enc_in, dec_in, c_out, out_len,
                  factor=5, d_model=512, n_heads=8, e_layers=3, d_layers=2, d_ff=512,
-                 dropout=0.0, attn='prob', embed='fixed', activation='gelu',
+                 dropout=0.0, attn='full', embed='fixed', activation='gelu',
                  output_attention=False, distil=True,
                  device=torch.device('cuda:0')):
         super(Informer, self).__init__()
@@ -213,10 +213,10 @@ class InformerStack_e2e(nn.Module):
             return dec_out[:, -self.pred_len:, :]  # [B, L, D]
 
 
-class InformerStack(nn.Module):
+class InformerStack(nn.Module): #attn == 'prob'
     def __init__(self, enc_in, dec_in, c_out, out_len,
                  factor=5, d_model=512, n_heads=8, e_layers=3, d_layers=2, d_ff=512,
-                 dropout=0.0, attn='prob', embed='fixed', activation='gelu',
+                 dropout=0.0, attn='full', activation='gelu',
                  SR_rate=6,interpolate_f='linear',
                  output_attention=False, distil=True,
                  device=torch.device('cuda:0')):
@@ -228,8 +228,8 @@ class InformerStack(nn.Module):
         self.interpolate_f=interpolate_f
 
         # Encoding
-        self.enc_embedding = DataEmbedding(enc_in, d_model, embed, dropout)
-        self.dec_embedding = DataEmbedding(dec_in, d_model, embed, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
+        self.dec_embedding = DataEmbedding(dec_in, d_model, dropout)
         # Attention
         Attn = ProbAttention if attn == 'prob' else FullAttention
         # Encoder

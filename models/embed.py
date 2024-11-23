@@ -40,7 +40,7 @@ class TokenEmbedding(nn.Module):
 
 
 class DataEmbedding(nn.Module):
-    def __init__(self, c_in, d_model, embed_type='fixed', dropout=0.1):
+    def __init__(self, c_in, d_model, dropout=0.1):
         super(DataEmbedding, self).__init__()
 
         self.value_embedding = TokenEmbedding(c_in=c_in, d_model=d_model)
