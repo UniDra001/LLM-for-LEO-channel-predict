@@ -2,17 +2,27 @@
 
 ## 已完成
 
-低轨卫星运动学建模
+1. 低轨卫星运动学建模
 
-端到端数据集生成
+2. 端到端数据集生成
+
+3. RNN、GRU、LSTM、CNN模型支持
 
 ## todo
 
-不同模型在场景问题下的训练
+1. Transformer、LLM等模型支持
+
+2. 信道预测算法性能评估（包括NMSE、Loss随着epoch和SNR的变化）
+
+3. 信道预测算法性能可视化分析
+
+4. 单独的测试模型脚本
+
+5. 模型性能优化
 
 ## Run Code
 
-dataset_generation\GenStatileCSI文件夹内为数据集生成的相关文件
+1. 运行gen_satelite_channel_data.m生成所需数据集
 
-运行gen_satelite_channel_data.m生成所需数据集
+2. 运行 train.py 训练模型
 
