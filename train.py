@@ -109,7 +109,7 @@ def save_best_checkpoint(model, config):  # save model function
 # ------------------- Main Function (Run first) -------------------
 if __name__ == "__main__":
     # ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn']
-    model_list = ['cnn', 'gru', 'rnn', 'lstm']
+    model_list = ['transformer', 'cnn', 'gru', 'rnn', 'lstm']
     training_data_loader, validate_data_loader = generate_data(Config)
     for model in model_list:
         Config["model_type"] = model
