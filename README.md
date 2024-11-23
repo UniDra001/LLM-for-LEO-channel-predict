@@ -12,7 +12,7 @@
 
 1. Transformer、LLM等模型支持
 
-2. 信道预测算法性能评估（包括NMSE、Loss随着epoch和SNR的变化）
+2. 信道预测算法性能评估（包括SE、NMSE、Loss随着epoch和SNR的变化）
 
 3. 信道预测算法性能可视化分析
 
