@@ -14,9 +14,21 @@ from models.model import TorchModel, choose_optimizer
 from config import Config
 import shutil
 from metrics import NMSELoss, SE_Loss
+from datetime import datetime
 #[DEBUG, INFO, WARNING, ERROR, CRITICAL]
-logging.basicConfig(level=logging.INFO, format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+# 获取当前时间并格式化为字符串（如：2024-11-24_15-30-45）
+current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+# 动态生成日志文件名
+log_filename = f"logs/log_{current_time}.txt"
+
+# 配置日志记录
+logging.basicConfig(
+    filename=log_filename,          # 使用动态生成的日志文件名
+    level=logging.INFO,             # 设置日志级别
+    format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
+    datefmt="%Y-%m-%d %H:%M:%S"     # 时间格式
+)
 # ============= HYPER PARAMS(Pre-Defined) ==========#
 
 
@@ -33,7 +45,7 @@ def train(config):
     # 标识是否使用gpu
     cuda_flag = torch.cuda.is_available()
     if cuda_flag:
-        logger.info("gpu可以使用，迁移模型至gpu")
+        printAndLog("gpu可以使用，迁移模型至gpu")
         model = model.cuda()
     #加载优化器
     optimizer = choose_optimizer(config, model)
@@ -45,8 +57,11 @@ def train(config):
     show_model_parament(model)
     
     best_loss = 100
-
-    print('Start training {} ...'.format(model.model_type))
+    
+    model_message = f"Start training {model.model_type} ..."
+    printAndLog(model_message)
+    train_loss = []
+    valid_loss = []
     for epoch in range(epochs):
         epoch_train_loss, epoch_val_loss = [], []
         # ============Epoch Train=============== #
@@ -64,7 +79,9 @@ def train(config):
             optimizer.step()
 
         t_loss = np.nanmean(np.array(epoch_train_loss))  # compute the mean value of all losses, as one epoch loss
-        print('Epoch: {}/{} training loss: {:.7f}'.format(epoch+1, epochs, t_loss))  # print loss for each epoch
+        train_loss.append(t_loss)
+        train_epoch_message = f"Epoch: {epoch+1}/{epochs} training loss: {t_loss:.7f}"
+        printAndLog(train_epoch_message)  # logging loss for each epoch
 
         # ============Epoch Validate=============== #
         model.eval()
@@ -77,14 +94,23 @@ def train(config):
                 loss = criterion(pred_m, pred_t)  # compute loss
                 epoch_val_loss.append(loss.item())  # save all losses into a vector for one epoch
             v_loss = np.nanmean(np.array(epoch_val_loss))
-            print('validate loss: {:.7f}'.format(v_loss))
+            valid_loss.append(v_loss)
+            valid_epoch_message = f"validate loss: {v_loss:.7f}"
+            printAndLog(valid_epoch_message)
             if v_loss < best_loss:
                 best_loss = v_loss
                 save_best_checkpoint(model, config)
+    # 记录训练和验证的损失
+    train_loss = [f"{item:.7f}" for item in train_loss]
+    valid_loss = [f"{item:.7f}" for item in valid_loss]
+    train_loss_message = f"Training loss: {train_loss}"
+    valid_loss_message = f"Validate loss: {valid_loss}"
+    printAndLog(train_loss_message)
+    printAndLog(valid_loss_message)
 
 def generate_data(config):
-    train_set = Dataset_Pro(config["train_file_path"], is_train=1)  # creat data for training
-    validate_set = Dataset_Pro(config["valid_file_path"], is_train=0)  # creat data for validation
+    train_set = Dataset_Pro(config["train_file_path"], is_train=1, SNR=config["SNR"])  # creat data for training
+    validate_set = Dataset_Pro(config["valid_file_path"], is_train=0, SNR=config["SNR"])  # creat data for validation
         
     training_data_loader = DataLoader(dataset=train_set, num_workers=0, batch_size=config["batch_size"], 
                                     shuffle=True,
@@ -95,6 +121,10 @@ def generate_data(config):
                                     pin_memory=True,
                                     drop_last=True)  # put training data to DataLoader for batches
     return training_data_loader, validate_data_loader
+
+def printAndLog(message):
+    print(message)
+    logging.info(message)
 
 def show_model_parament(model):
     total = sum([param.nelement() for param in model.parameters()])

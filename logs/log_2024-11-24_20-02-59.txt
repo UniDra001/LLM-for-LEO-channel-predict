@@ -1,0 +1,73 @@
+2024-11-24 20:03:03 - INFO - gpu可以使用，迁移模型至gpu
+2024-11-24 20:03:09 - INFO - Epoch: 1/20 training loss: 0.9641795
+2024-11-24 20:03:09 - INFO - validate loss: 0.8166014
+2024-11-24 20:03:12 - INFO - Epoch: 2/20 training loss: 0.7733626
+2024-11-24 20:03:13 - INFO - validate loss: 0.7107777
+2024-11-24 20:03:16 - INFO - Epoch: 3/20 training loss: 0.6797358
+2024-11-24 20:03:16 - INFO - validate loss: 0.7114491
+2024-11-24 20:03:19 - INFO - Epoch: 4/20 training loss: 0.6363295
+2024-11-24 20:03:20 - INFO - validate loss: 0.6978185
+2024-11-24 20:03:23 - INFO - Epoch: 5/20 training loss: 0.6299818
+2024-11-24 20:03:23 - INFO - validate loss: 0.6062081
+2024-11-24 20:03:26 - INFO - Epoch: 6/20 training loss: 0.5919040
+2024-11-24 20:03:27 - INFO - validate loss: 0.6458817
+2024-11-24 20:03:30 - INFO - Epoch: 7/20 training loss: 0.5545594
+2024-11-24 20:03:30 - INFO - validate loss: 0.5417150
+2024-11-24 20:03:33 - INFO - Epoch: 8/20 training loss: 0.5038728
+2024-11-24 20:03:34 - INFO - validate loss: 0.4813853
+2024-11-24 20:03:37 - INFO - Epoch: 9/20 training loss: 0.4529621
+2024-11-24 20:03:37 - INFO - validate loss: 0.4353471
+2024-11-24 20:03:40 - INFO - Epoch: 10/20 training loss: 0.4228352
+2024-11-24 20:03:41 - INFO - validate loss: 0.4504607
+2024-11-24 20:03:44 - INFO - Epoch: 11/20 training loss: 0.3855385
+2024-11-24 20:03:44 - INFO - validate loss: 0.4087699
+2024-11-24 20:03:47 - INFO - Epoch: 12/20 training loss: 0.3590583
+2024-11-24 20:03:48 - INFO - validate loss: 0.3743594
+2024-11-24 20:03:51 - INFO - Epoch: 13/20 training loss: 0.3270053
+2024-11-24 20:03:51 - INFO - validate loss: 0.3213061
+2024-11-24 20:03:54 - INFO - Epoch: 14/20 training loss: 0.2999350
+2024-11-24 20:03:55 - INFO - validate loss: 0.3265468
+2024-11-24 20:03:58 - INFO - Epoch: 15/20 training loss: 0.2978900
+2024-11-24 20:03:58 - INFO - validate loss: 0.3059546
+2024-11-24 20:04:01 - INFO - Epoch: 16/20 training loss: 0.2706167
+2024-11-24 20:04:02 - INFO - validate loss: 0.3369104
+2024-11-24 20:04:05 - INFO - Epoch: 17/20 training loss: 0.2959097
+2024-11-24 20:04:05 - INFO - validate loss: 0.3076887
+2024-11-24 20:04:08 - INFO - Epoch: 18/20 training loss: 0.3028867
+2024-11-24 20:04:08 - INFO - validate loss: 0.3453534
+2024-11-24 20:04:12 - INFO - Epoch: 19/20 training loss: 0.3174251
+2024-11-24 20:04:12 - INFO - validate loss: 0.2606517
+2024-11-24 20:04:15 - INFO - Epoch: 20/20 training loss: 0.2351354
+2024-11-24 20:04:15 - INFO - validate loss: 0.2542472
+2024-11-24 20:04:16 - INFO - gpu可以使用，迁移模型至gpu
+2024-11-24 20:04:25 - INFO - Epoch: 1/20 training loss: 0.6699194
+2024-11-24 20:04:25 - INFO - validate loss: 0.3555204
+2024-11-24 20:04:35 - INFO - Epoch: 2/20 training loss: 0.3096720
+2024-11-24 20:04:35 - INFO - validate loss: 0.2279463
+2024-11-24 20:04:45 - INFO - Epoch: 3/20 training loss: 0.2275302
+2024-11-24 20:04:45 - INFO - validate loss: 0.2011381
+2024-11-24 20:04:55 - INFO - Epoch: 4/20 training loss: 0.1898753
+2024-11-24 20:04:55 - INFO - validate loss: 0.1687241
+2024-11-24 20:05:04 - INFO - Epoch: 5/20 training loss: 0.1809122
+2024-11-24 20:05:05 - INFO - validate loss: 0.1622849
+2024-11-24 20:05:14 - INFO - Epoch: 6/20 training loss: 0.1551506
+2024-11-24 20:05:15 - INFO - validate loss: 0.1486805
+2024-11-24 20:05:24 - INFO - Epoch: 7/20 training loss: 0.1480662
+2024-11-24 20:05:25 - INFO - validate loss: 0.1493227
+2024-11-24 20:05:34 - INFO - Epoch: 8/20 training loss: 0.1416237
+2024-11-24 20:05:34 - INFO - validate loss: 0.1381214
+2024-11-24 20:05:44 - INFO - Epoch: 9/20 training loss: 0.1363825
+2024-11-24 20:05:44 - INFO - validate loss: 0.1373129
+2024-11-24 20:05:54 - INFO - Epoch: 10/20 training loss: 0.1294129
+2024-11-24 20:05:54 - INFO - validate loss: 0.1385699
+2024-11-24 20:06:03 - INFO - Epoch: 11/20 training loss: 0.1319392
+2024-11-24 20:06:04 - INFO - validate loss: 0.1350757
+2024-11-24 20:06:13 - INFO - Epoch: 12/20 training loss: 0.1259899
+2024-11-24 20:06:14 - INFO - validate loss: 0.1355531
+2024-11-24 20:06:23 - INFO - Epoch: 13/20 training loss: 0.1236130
+2024-11-24 20:06:24 - INFO - validate loss: 0.1250287
+2024-11-24 20:06:33 - INFO - Epoch: 14/20 training loss: 0.1210604
+2024-11-24 20:06:34 - INFO - validate loss: 0.1303898
+2024-11-24 20:06:43 - INFO - Epoch: 15/20 training loss: 0.1244289
+2024-11-24 20:06:43 - INFO - validate loss: 0.1394371
+2024-11-24 20:06:53 - INFO - Epoch: 16/20 training loss: 0.1225727

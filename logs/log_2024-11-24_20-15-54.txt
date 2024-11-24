@@ -1,0 +1,70 @@
+2024-11-24 20:15:58 - INFO - gpu可以使用，迁移模型至gpu
+2024-11-24 20:15:58 - INFO - Start training transformer ...
+2024-11-24 20:16:04 - INFO - Epoch: 1/5 training loss: 0.9715472
+2024-11-24 20:16:04 - INFO - validate loss: 0.8111006
+2024-11-24 20:16:08 - INFO - Epoch: 2/5 training loss: 0.7608228
+2024-11-24 20:16:08 - INFO - validate loss: 0.7253294
+2024-11-24 20:16:11 - INFO - Epoch: 3/5 training loss: 0.6397916
+2024-11-24 20:16:11 - INFO - validate loss: 0.6679307
+2024-11-24 20:16:15 - INFO - Epoch: 4/5 training loss: 0.6175181
+2024-11-24 20:16:15 - INFO - validate loss: 0.6251270
+2024-11-24 20:16:18 - INFO - Epoch: 5/5 training loss: 0.5688072
+2024-11-24 20:16:18 - INFO - validate loss: 0.5824507
+2024-11-24 20:16:18 - INFO - Training loss: ['0.9715472', '0.7608228', '0.6397916', '0.6175181', '0.5688072']
+2024-11-24 20:16:18 - INFO - Validate loss: ['0.8111006', '0.7253294', '0.6679307', '0.6251270', '0.5824507']
+2024-11-24 20:16:18 - INFO - gpu可以使用，迁移模型至gpu
+2024-11-24 20:16:18 - INFO - Start training cnn ...
+2024-11-24 20:16:28 - INFO - Epoch: 1/5 training loss: 0.5776005
+2024-11-24 20:16:28 - INFO - validate loss: 0.3264209
+2024-11-24 20:16:37 - INFO - Epoch: 2/5 training loss: 0.2892993
+2024-11-24 20:16:38 - INFO - validate loss: 0.2218744
+2024-11-24 20:16:47 - INFO - Epoch: 3/5 training loss: 0.2198845
+2024-11-24 20:16:48 - INFO - validate loss: 0.1873968
+2024-11-24 20:16:57 - INFO - Epoch: 4/5 training loss: 0.1875810
+2024-11-24 20:16:57 - INFO - validate loss: 0.1685339
+2024-11-24 20:17:07 - INFO - Epoch: 5/5 training loss: 0.1662679
+2024-11-24 20:17:07 - INFO - validate loss: 0.1592711
+2024-11-24 20:17:07 - INFO - Training loss: ['0.5776005', '0.2892993', '0.2198845', '0.1875810', '0.1662679']
+2024-11-24 20:17:07 - INFO - Validate loss: ['0.3264209', '0.2218744', '0.1873968', '0.1685339', '0.1592711']
+2024-11-24 20:17:07 - INFO - gpu可以使用，迁移模型至gpu
+2024-11-24 20:17:07 - INFO - Start training gru ...
+2024-11-24 20:17:10 - INFO - Epoch: 1/5 training loss: 0.8357034
+2024-11-24 20:17:10 - INFO - validate loss: 0.6407369
+2024-11-24 20:17:12 - INFO - Epoch: 2/5 training loss: 0.5970272
+2024-11-24 20:17:12 - INFO - validate loss: 0.5751666
+2024-11-24 20:17:14 - INFO - Epoch: 3/5 training loss: 0.4900275
+2024-11-24 20:17:14 - INFO - validate loss: 0.4847499
+2024-11-24 20:17:16 - INFO - Epoch: 4/5 training loss: 0.4483907
+2024-11-24 20:17:16 - INFO - validate loss: 0.5023719
+2024-11-24 20:17:19 - INFO - Epoch: 5/5 training loss: 0.4132224
+2024-11-24 20:17:19 - INFO - validate loss: 0.4070491
+2024-11-24 20:17:19 - INFO - Training loss: ['0.8357034', '0.5970272', '0.4900275', '0.4483907', '0.4132224']
+2024-11-24 20:17:19 - INFO - Validate loss: ['0.6407369', '0.5751666', '0.4847499', '0.5023719', '0.4070491']
+2024-11-24 20:17:19 - INFO - gpu可以使用，迁移模型至gpu
+2024-11-24 20:17:19 - INFO - Start training rnn ...
+2024-11-24 20:17:20 - INFO - Epoch: 1/5 training loss: 0.5715582
+2024-11-24 20:17:20 - INFO - validate loss: 0.4144054
+2024-11-24 20:17:22 - INFO - Epoch: 2/5 training loss: 0.3511712
+2024-11-24 20:17:22 - INFO - validate loss: 0.2881406
+2024-11-24 20:17:24 - INFO - Epoch: 3/5 training loss: 0.2666806
+2024-11-24 20:17:24 - INFO - validate loss: 0.2181166
+2024-11-24 20:17:25 - INFO - Epoch: 4/5 training loss: 0.2071848
+2024-11-24 20:17:26 - INFO - validate loss: 0.1987036
+2024-11-24 20:17:27 - INFO - Epoch: 5/5 training loss: 0.1828054
+2024-11-24 20:17:27 - INFO - validate loss: 0.1732075
+2024-11-24 20:17:27 - INFO - Training loss: ['0.5715582', '0.3511712', '0.2666806', '0.2071848', '0.1828054']
+2024-11-24 20:17:27 - INFO - Validate loss: ['0.4144054', '0.2881406', '0.2181166', '0.1987036', '0.1732075']
+2024-11-24 20:17:27 - INFO - gpu可以使用，迁移模型至gpu
+2024-11-24 20:17:27 - INFO - Start training lstm ...
+2024-11-24 20:17:30 - INFO - Epoch: 1/5 training loss: 0.8893654
+2024-11-24 20:17:30 - INFO - validate loss: 0.6391414
+2024-11-24 20:17:33 - INFO - Epoch: 2/5 training loss: 0.5534791
+2024-11-24 20:17:33 - INFO - validate loss: 0.5031699
+2024-11-24 20:17:35 - INFO - Epoch: 3/5 training loss: 0.4795001
+2024-11-24 20:17:36 - INFO - validate loss: 0.4510197
+2024-11-24 20:17:38 - INFO - Epoch: 4/5 training loss: 0.4517307
+2024-11-24 20:17:38 - INFO - validate loss: 0.4449281
+2024-11-24 20:17:41 - INFO - Epoch: 5/5 training loss: 0.4191028
+2024-11-24 20:17:41 - INFO - validate loss: 0.4208113
+2024-11-24 20:17:41 - INFO - Training loss: ['0.8893654', '0.5534791', '0.4795001', '0.4517307', '0.4191028']
+2024-11-24 20:17:41 - INFO - Validate loss: ['0.6391414', '0.5031699', '0.4510197', '0.4449281', '0.4208113']
