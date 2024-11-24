@@ -2,3 +2,4 @@ __pycache__/
 test_data/
 train_data/
 Weights/
+logs/
