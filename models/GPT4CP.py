@@ -53,8 +53,8 @@ class Res_block(nn.Module):
 class GPTModel(nn.Module):
 
     def __init__(self, gpt_type='gpt2', d_ff=768, d_model=768, gpt_layers=6,
-                 pred_len=4, prev_len=16, use_gpu=1, gpu_id=0, mlp=0, res_layers=4,
-                 K=48, UQh=4, UQv=1, BQh=2, BQv=1,
+                 pred_len=4, prev_len=20, use_gpu=1, gpu_id=0, mlp=0, res_layers=4,
+                 enc_in = 96, c_out = 96,
                  patch_size=4, stride=1, res_dim=64,
                  embed='timeF', freq='h', dropout=0.1):
         super(GPTModel, self).__init__()
@@ -68,18 +68,18 @@ class GPTModel(nn.Module):
         self.d_ff = d_ff
         self.d_model = d_model
 
-        self.K = K
-        self.UQh = UQh
-        self.UQv = UQv
-        self.BQh = BQh
-        self.BQv = BQv
-        self.Nt = UQh * UQv
-        self.Nr = BQh * BQv
-        self.mul = prev_len * K * UQh * UQv * BQh * BQv
-        self.enc_in = K * UQh * UQv * BQh * BQv
-        self.c_out = K * UQh * UQv * BQh * BQv
+        # self.K = K
+        # self.UQh = UQh
+        # self.UQv = UQv
+        # self.BQh = BQh
+        # self.BQv = BQv
+        # self.Nt = UQh * UQv
+        # self.Nr = BQh * BQv
+        # self.mul = prev_len * K * UQh * UQv * BQh * BQv
+        self.enc_in = enc_in
+        self.c_out = c_out
 
-        self.enc_embedding1 = DataEmbedding(2 * self.enc_in, self.d_model, embed, freq, dropout)
+        self.enc_embedding1 = DataEmbedding(self.enc_in, self.d_model, embed, freq, dropout)
 
         if gpt_type == 'gpt2-medium':
             self.gpt2 = GPT2Model.from_pretrained('gpt2-medium', output_attentions=True, output_hidden_states=True)
@@ -94,7 +94,7 @@ class GPTModel(nn.Module):
             self.gpt2.h = self.gpt2.h[:gpt_layers]
             self.gpt_dim = 1600
         else:
-            self.gpt2 = GPT2Model.from_pretrained('gpt2', output_attentions=True, output_hidden_states=True)
+            self.gpt2 = GPT2Model.from_pretrained('./gpt2', output_attentions=True, output_hidden_states=True)
             self.gpt2.h = self.gpt2.h[:gpt_layers]
             self.gpt_dim = 768
 
@@ -113,7 +113,7 @@ class GPTModel(nn.Module):
         self.patch_layer = nn.Linear(self.patch_size, self.patch_size)
         self.patch_layer_fre = nn.Linear(self.patch_size, self.patch_size)
         self.predict_linear_pre = nn.Linear(self.prev_len, self.prev_len)
-        self.out_layer_dim = nn.Linear(d_ff, self.c_out * 2)
+        self.out_layer_dim = nn.Linear(d_ff, self.c_out)
         self.output_layer_time = nn.Sequential(
             nn.Linear(self.prev_len, self.pred_len)
         )
@@ -162,6 +162,7 @@ class GPTModel(nn.Module):
         dec_out = self.out_layer_dim(dec_out)
         dec_out = self.output_layer_time(dec_out.permute(0, 2, 1)).permute(0, 2, 1)
 
+        # 反归一化
         dec_out = dec_out * std + mean
 
         return dec_out[:, -self.pred_len:, :]  # [B, L, D]

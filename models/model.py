@@ -34,7 +34,7 @@ class TorchModel(nn.Module):
         num_layers = config["num_layers"]
         # ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn', 'np', 'pad']
         if model_type == 'gpt':
-            self.endModel = GPTModel()
+            self.endModel = GPTModel(pred_len=self.pred_len, prev_len=self.prev_len, enc_in = enc_in, c_out = dec_in)
         elif model_type == 'transformer':
             self.endModel = InformerStack(enc_in, dec_in, c_out, self.pred_len)
         elif model_type == 'cnn':

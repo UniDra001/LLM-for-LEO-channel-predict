@@ -11,7 +11,7 @@ Config = {
     "max_length": 30,
     "kernel_size": 3,
     "num_layers": 2,
-    "epoch": 5,
+    "epoch": 50,
     "batch_size": 128,
     "pooling_style":"max",
     "optimizer": "adam",
