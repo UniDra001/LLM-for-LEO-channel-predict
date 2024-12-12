@@ -19,7 +19,15 @@ from datetime import datetime
 # 获取当前时间并格式化为字符串（如：2024-11-24_15-30-45）
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
+log_filename = f"logs/log_{current_time}.txt"
 
+# 配置日志记录
+logging.basicConfig(
+    filename=log_filename,          # 使用动态生成的日志文件名
+    level=logging.INFO,             # 设置日志级别
+    format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
+    datefmt="%Y-%m-%d %H:%M:%S"     # 时间格式
+)
 # ============= HYPER PARAMS(Pre-Defined) ==========#
 
 
@@ -127,21 +135,10 @@ def save_best_checkpoint(model, config):  # save model function
     model_out_path = config["model_out_path"] + config["model_type"] + ".pth"
     torch.save(model, model_out_path)
     
-def set_log_file(Config):
-    # 动态生成日志文件名
-    log_filename = f"logs/log_{current_time}_SNR_{Config['SNR']}.txt"
-
-    # 配置日志记录
-    logging.basicConfig(
-        filename=log_filename,          # 使用动态生成的日志文件名
-        level=logging.INFO,             # 设置日志级别
-        format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
-        datefmt="%Y-%m-%d %H:%M:%S"     # 时间格式
-    )
 # ------------------- Main Function (Run first) -------------------
 if __name__ == "__main__":
     # ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn']
-    model_list = ['gpt', 'transformer', 'cnn', 'gru', 'rnn', 'lstm']
+    model_list = ['cnn', 'gru', 'rnn', 'lstm'] # 'gpt', 'transformer', 
     snr_list = [0, 5, 10, 15, 20, 25, 30, 35]
     nmse_model_list = []
     for model in model_list:
@@ -151,7 +148,6 @@ if __name__ == "__main__":
             Config["SNR"] = snr
             Config["model_out_path"] += f"SNR_{snr}/"
             os.makedirs(Config["model_out_path"], exist_ok=True)
-            set_log_file(Config)
             training_data_loader, validate_data_loader = generate_data(Config)
             nmse_list.append(train(Config))
         nmse_model_list.append(f"{model} : {nmse_list}")
