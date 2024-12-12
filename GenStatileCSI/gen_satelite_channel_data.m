@@ -1,8 +1,8 @@
 clc;
 clear;
 
-sample_loc = 4; % 对sample_loc个地点生成卫星信道
-num_per_loc = 4; % 每个地点采样num_per_loc个数据
+sample_loc = 128; % 对sample_loc个地点生成卫星信道
+num_per_loc = 256; % 每个地点采样num_per_loc个数据
 R = 6871; % 低轨卫星离地心距离，单位km
 prev_len = 20;
 pred_len = 4;
@@ -17,7 +17,7 @@ linear_vel = 7.62;  % 卫星的线速度，单位km/s
 angle_vel = linear_vel/R; % 卫星角速度，单位rad/s
 time_interval = 1; % 0.5*10e-3; % 信道的采样间隔，单位s
 angle_interval = time_interval * angle_vel; % 角度间隔
-isTrain = 1;
+isTrain = 0;
 for iter_sample = 1:sample_loc
     % 随机生成中国地区的某个经纬度坐标
     [lon, lat] = random_china_coordinates();
@@ -34,16 +34,15 @@ for iter_sample = 1:sample_loc
         tf_small_channel = small_scale_channel(M,total_len,Delta_f,fc, ele_seq(1));
 %         3. 叠加
         tf_channel = A_large_scale_seq.*tf_small_channel;
-        H_U_prev(iter_sample, iter_loc) = tf_channel(:, 1:prev_len);
-        H_U_pred(iter_sample, iter_loc) = tf_channel(:, prev_len+1:total_len);
+        H_U_prev(iter_sample, iter_loc,:,:) = tf_channel(:, 1:prev_len).';
+        H_U_pred(iter_sample, iter_loc,:,:) = tf_channel(:, prev_len+1:total_len).';
     end
 end
+
 if isTrain == 1
-    save('C:\Users\jarvis\Desktop\AI\ChannelPredict\H_U_prev_train.mat', H_U_prev);
-    save('C:\Users\jarvis\Desktop\AI\ChannelPredict\H_U_pred_train.mat', H_U_pred);
+    save('..\train_data\H_U_train_large.mat', 'H_U_prev','H_U_pred');
 else
-    save('C:\Users\jarvis\Desktop\AI\ChannelPredict\H_U_prev_test.mat', H_U_prev);
-    save('C:\Users\jarvis\Desktop\AI\ChannelPredict\H_U_pred_test.mat', H_U_pred);
+    save('..\test_data\H_U_test_large.mat', 'H_U_prev','H_U_pred');
 end
         
         

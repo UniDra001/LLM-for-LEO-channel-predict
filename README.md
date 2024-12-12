@@ -6,7 +6,7 @@
 
 2. 端到端数据集生成
 
-3. RNN、GRU、LSTM、CNN、Transformer模型支持
+3. RNN、GRU、LSTM、CNN、Transformer、GPT模型支持
 
 ## todo
 
@@ -23,6 +23,10 @@
 6. 考虑TDD、FDD场景的问题
 
 7. 考虑信道估计和信道预测算法的评估指标
+
+8. 考虑预测长度对预测性能的影响
+
+9. 替换位置编码算法
 
 ## Run Code
 

@@ -46,8 +46,8 @@ class Dataset_Pro(data.Dataset):
         H_his = dt_all[:, :prev_len, ...]
         H_pre = dt_all[:, -pred_len:, ...]
         for i in range(B):
-            H_his[i, ...] = noise(H_his[i, ...], random.rand() * 15 + 5.0)
-            H_pre[i, ...] = noise(H_pre[i, ...], random.rand() * 15 + 5.0)
+            H_his[i, ...] = noise(H_his[i, ...], self.SNR)
+            H_pre[i, ...] = noise(H_pre[i, ...], self.SNR)
         std = np.sqrt(np.std(np.abs(H_his) ** 2))
         H_his = H_his / std
         H_pre = H_pre / std
