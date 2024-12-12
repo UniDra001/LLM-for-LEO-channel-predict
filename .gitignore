@@ -1,6 +1,6 @@
-__pycache__/
 test_data/
 train_data/
 Weights/
 logs/
 gpt2/
+__pycache__/
