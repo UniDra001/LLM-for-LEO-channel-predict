@@ -138,7 +138,7 @@ def save_best_checkpoint(model, config):  # save model function
 # ------------------- Main Function (Run first) -------------------
 if __name__ == "__main__":
     # ['gpt', 'transformer', 'cnn', 'gru', 'lstm', 'rnn']
-    model_list = ['cnn', 'gru', 'rnn', 'lstm'] # 'gpt', 'transformer', 
+    model_list = ['qwen', 'gpt', 'cnn', 'gru', 'rnn', 'lstm'] # 'gpt', 'transformer', 
     snr_list = [0, 5, 10, 15, 20, 25, 30, 35]
     nmse_model_list = []
     for model in model_list:

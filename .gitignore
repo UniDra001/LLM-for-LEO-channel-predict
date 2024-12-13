@@ -4,3 +4,6 @@ Weights/
 logs/
 gpt2/
 __pycache__/
+qwen2/
+llama/
+models/test_qwen2.py
