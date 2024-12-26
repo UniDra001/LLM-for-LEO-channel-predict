@@ -83,9 +83,7 @@ class QwenModel(nn.Module):
         self.qwen2 = AutoModelForCausalLM.from_pretrained('./qwen2', output_attentions=True, output_hidden_states=True)
 
         for i, (name, param) in enumerate(self.qwen2.named_parameters()):
-            if 'ln' in name or 'wpe' in name:  # or 'mlp' in name:
-                param.requires_grad = True
-            elif 'mlp' in name and mlp == 1:
+            if 'embed' in name:  # or 'mlp' in name:
                 param.requires_grad = True
             else:
                 param.requires_grad = False

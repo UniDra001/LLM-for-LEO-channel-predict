@@ -7,3 +7,4 @@ __pycache__/
 qwen2/
 llama/
 models/test_qwen2.py
+models/test_gpt.py
