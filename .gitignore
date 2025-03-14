@@ -8,3 +8,8 @@ qwen2/
 llama/
 models/test_qwen2.py
 models/test_gpt.py
+gpt2.zip
+plot/nmseVSepoch.pdf
+plot/nmseVSepoch.py
+plot/nmseVSsnr.py
+plot/plot_fig.py

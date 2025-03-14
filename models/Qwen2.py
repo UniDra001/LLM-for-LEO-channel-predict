@@ -138,7 +138,7 @@ class QwenModel(nn.Module):
         enc_out = self.predict_linear_pre(enc_out.permute(0, 2, 1)).permute(0, 2, 1)
         enc_out = torch.nn.functional.pad(enc_out, (0, self.d_model - enc_out.shape[-1]))
 
-        dec_out = self.qwen2(inputs_embeds=enc_out).last_hidden_state  # [B, L, 768]
+        dec_out = self.qwen2(inputs_embeds=enc_out).hidden_states[-1]  # [B, L, 768]
         dec_out = dec_out[:, :, :self.d_ff]
 
         dec_out = self.out_layer_dim(dec_out)
